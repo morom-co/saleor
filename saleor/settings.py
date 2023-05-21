@@ -226,6 +226,8 @@ JWT_MANAGER_PATH = os.environ.get(
 )
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
     "saleor.core.middleware.jwt_refresh_token_middleware",
@@ -234,6 +236,7 @@ MIDDLEWARE = [
 INSTALLED_APPS = [
     # External apps that need to go before django's
     "storages",
+    "corsheaders",
     # Django modules
     "django.contrib.contenttypes",
     "django.contrib.sites",
@@ -860,3 +863,11 @@ CONFIRMATION_EMAIL_LOCK_TIME = parse(
 OAUTH_UPDATE_LAST_LOGIN_THRESHOLD = parse(
     os.environ.get("OAUTH_UPDATE_LAST_LOGIN_THRESHOLD", "15 minutes")
 )
+
+# Cors configuration
+CORS_ALLOWED_ORIGINS = get_list(os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:9000"))
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'authorization-bearer',
+    "authorization",
+]
